@@ -1,0 +1,16 @@
+{
+  "name": "Whaler",
+  "version": "0.0.1",
+  "description": "Customizations to the GitHub merge button.",
+  "content_scripts": [
+    {
+      "matches": ["https://github.com/*"],
+      "all_frames": true,
+      "js": ["content_script.js"]
+    }
+  ],
+  "manifest_version": 2,
+  "web_accessible_resources": [
+        "css/whaler.css"
+    ]
+}

@@ -1,0 +1,12 @@
+.button.whaler,
+.minibutton.whaler,
+.button.whaler {
+    background-color: #578DCB !important;
+    background-image:-moz-linear-gradient(#578DCB, #1D69CD) !important;
+    background-image:-webkit-linear-gradient(#578DCB, #1D69CD) !important;
+    background-image: linear-gradient(#578DCB, #1D69CD) !important;
+    border-color: #EEE !important;
+    color: #FFF !important;
+    text-shadow: 0 -1px 0 rgba(0,0,0,0.25) !important;
+}
+
