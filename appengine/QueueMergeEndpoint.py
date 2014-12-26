@@ -1,9 +1,11 @@
 
+import github
 import webapp2
 import logging
+import datetime
 
-from FastForwardMerger import FastForwardMerger
 from GitHubRepo import GitHubRepo
+
 
 class QueueMergeEndpoint(webapp2.RequestHandler):
     """
@@ -37,4 +39,27 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
         # Merge base into head
         merge_commit = repo.repo.merge(head, base)
 
-        logging.info(merge_commit)
+        if merge_commit:
+            # TODO: Wait for CI build to pass (use git hook)
+            tree = merge_commit.commit.tree
+        else:
+            head_commit = repo.repo.get_commit(pull.head.sha)
+            tree = head_commit.commit.tree
+
+        squash_commit_message = "Squash merge from TODO"
+        parents = [repo.repo.get_git_commit(pull.base.sha)]
+        author = self.get_git_author(pull)
+        committer = author  # TODO: Might be better if this is the person who presses the button.
+        new_commit = repo.repo.create_git_commit(squash_commit_message, tree, parents, author, committer)
+
+        branch_base = repo.repo.get_git_ref("heads/%s" % base)
+        branch_base.edit(new_commit.sha)
+
+    @staticmethod
+    def get_git_author(pull_request):
+        """
+        :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
+        """
+        user = pull_request.user
+        time = None  # datetime.datetime.today().isoformat()
+        return github.InputGitAuthor(user.name, user.email, time)

@@ -37,7 +37,7 @@ class InputGitAuthor(object):
 
         assert isinstance(name, (str, unicode)), name
         assert isinstance(email, (str, unicode)), email
-        assert isinstance(date, (str, unicode)), date  # @todo Datetime?
+        # assert isinstance(date, (str, unicode)), date  # @todo Datetime? # nic
         self.__name = name
         self.__email = email
         self.__date = date
@@ -47,5 +47,5 @@ class InputGitAuthor(object):
         return {
             "name": self.__name,
             "email": self.__email,
-            "date": self.__date,
+            # "date": self.__date, #nic
         }

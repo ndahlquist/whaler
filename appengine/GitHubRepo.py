@@ -1,7 +1,10 @@
 import github
+import logging
 
-GITHUB_USERNAME = 'cicitheandroidtester'
-GITHUB_PASSWORD = 'b72b1311b70a4d0ef4a590d03c24e5305ea31baf'
+try:
+    from credentials import GITHUB_USERNAME, GITHUB_PASSWORD
+except ImportError:
+    raise ImportError("No credentials.py file found. This file should define GITHUB_USERNAME and GITHUB_PASSWORD.")
 
 
 class GitHubRepo():
