@@ -49,12 +49,12 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
                                 "\n" \
                                 "---\n" \
                                 "Squash commit from %s created by Whaler." % pull_request_url
-        parents = [repo.repo.get_git_commit(pull.base.sha)]
+        base_branch = repo.repo.get_git_ref("heads/%s" % base)
+        parents = [repo.repo.get_git_commit(base_branch.object.sha)]
         author = self.get_git_author(pull)
         committer = author  # TODO: Might be better if this is the person who presses the button.
         new_commit = repo.repo.create_git_commit(squash_commit_message, tree, parents, author, committer)
 
-        base_branch = repo.repo.get_git_ref("heads/%s" % base)
         base_branch.edit(new_commit.sha)
 
         pull.create_issue_comment("Merged via squash commit %s. :whale:" % new_commit.sha)
