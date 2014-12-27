@@ -1,0 +1,4 @@
+[submodule "appengine/lib/submodules/PyGithub"]
+	path = appengine/lib/submodules/PyGithub
+	url = https://github.com/ndahlquist/PyGithub.git
+	branch = inputgitauthor_opt_time

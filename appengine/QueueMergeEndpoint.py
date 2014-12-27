@@ -2,7 +2,6 @@
 import github
 import webapp2
 import logging
-import datetime
 
 from GitHubRepo import GitHubRepo
 
@@ -71,5 +70,4 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
         :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
         """
         user = pull_request.user
-        time = None  # datetime.datetime.today().isoformat()
-        return github.InputGitAuthor(user.name, user.email, time)
+        return github.InputGitAuthor(user.name, user.email)
