@@ -96,8 +96,6 @@ function supportsWhaler(url) {
 }
 
 function domNodeInsertedCallback() {
-    console.log('DomNodeInsertedCallback()');
-
     // We must remove the event listener before updateDocument() to prevent recursion.
     document.removeEventListener('DOMNodeInserted', domNodeInsertedCallback);
     updateDocument();
