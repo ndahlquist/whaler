@@ -5,7 +5,7 @@ If your Git workflow involves squash merges, you're probably frustrated that the
 
 ### Quickstart
 1. [Install](https://chrome.google.com/webstore/detail/whaler/kjfaikbmbbkbnjjeiambmjchclpfkedf) the Chrome extension.
-2. Give the GitHub user [cicitheandroidtester](https://github.com/cicitheandroidtester) push rights to your repository (this access is used to create the squash commits).
+2. Make the GitHub user [whaler](https://github.com/whaler) a contributor to your repository (this access is used to create the squash commits).
 
 You're done! You should see a blue "Squash merge" button in place of the regular "Merge pull request" button.
 
