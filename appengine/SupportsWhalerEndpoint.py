@@ -24,4 +24,6 @@ class SupportsWhalerEndpoint(webapp2.RequestHandler):
             GitHubRepo(owner_name, repo_name)
             self.response.body = "supported"
         except:
-            self.response.body = "Whaler does not have access to this repo."
+            url = "https://github.com/%s/%s/settings/collaboration" % (owner_name, repo_name)
+            self.response.body = "This repo does not support squash commits! " \
+                                 "<a href=\"%s\">Add Whaler</a> as a collaborator." % url

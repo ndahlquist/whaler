@@ -67,7 +67,7 @@ function dewhalifyDocument() {
 
   merge_description = document.querySelector('.merge-branch-description')
   if (originalMergeDescription == null) originalMergeDescription = merge_description.innerHTML;
-  merge_description.innerHTML = originalMergeDescription + "<br>" + url_support_cache[document.URL]
+  merge_description.innerHTML = url_support_cache[document.URL]
 }
 
 /**
