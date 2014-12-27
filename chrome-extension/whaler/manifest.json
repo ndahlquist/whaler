@@ -4,13 +4,21 @@
   "description": "Customizations to the GitHub merge button.",
   "content_scripts": [
     {
-      "matches": ["https://github.com/*"],
+      "matches": ["*://github.com/*/pull/*"],
       "all_frames": true,
       "js": ["content_script.js"]
     }
   ],
+  "background": {
+    "scripts": ["background.js"]
+  },
   "manifest_version": 2,
   "web_accessible_resources": [
         "css/whaler.css"
-    ]
+  ],
+  "permissions": [
+      "webRequest",
+      "webRequestBlocking",
+      "*://github.com/*/pull/*"
+  ]
 }

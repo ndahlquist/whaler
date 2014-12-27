@@ -1,5 +1,4 @@
 import github
-import logging
 
 try:
     from credentials import GITHUB_USERNAME, GITHUB_PASSWORD

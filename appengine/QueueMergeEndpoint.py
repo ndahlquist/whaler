@@ -46,7 +46,7 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
             head_commit = repo.repo.get_commit(pull.head.sha)
             tree = head_commit.commit.tree
 
-        squash_commit_message = "Squash merge from TODO"
+        squash_commit_message = "%s\n\nSquash commit created by Whaler." % self.request.get('commit_message')
         parents = [repo.repo.get_git_commit(pull.base.sha)]
         author = self.get_git_author(pull)
         committer = author  # TODO: Might be better if this is the person who presses the button.
