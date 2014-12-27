@@ -26,8 +26,7 @@ function modifyMergeForm() {
   confirmMergeButton.className = confirmMergeButton.className.replace(/primary/g, 'whaler');
 }
 
-window.onload = function() {
-  injectCSS();
-  modifyMergeButton();
-  modifyMergeForm();
-}
+injectCSS();
+modifyMergeButton();
+modifyMergeForm();
+
