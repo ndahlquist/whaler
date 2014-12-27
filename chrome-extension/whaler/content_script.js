@@ -11,6 +11,7 @@ function injectCSS() {
 
 function modifyMergeButton() {
   button = document.querySelector(".merge-branch-action");
+  if (button == null) return;
   // Add our CSS tag to paint the button blue.
   button.className = button.className.replace(/primary/g, 'whaler');
   button.onclick = modifyMergeForm
@@ -18,6 +19,7 @@ function modifyMergeButton() {
 
 function modifyMergeForm() {
   form = document.querySelector(".merge-branch-form");
+  if (form == null) return;
   // Redirect the form to our server, so that we can handle the merge.
   form.action = "https://whaler-on-fleek.appspot.com/queue_merge";
 
@@ -27,6 +29,15 @@ function modifyMergeForm() {
 }
 
 injectCSS();
+
 modifyMergeButton();
 modifyMergeForm();
+
+// GitHub dynamically modifies the merge form. We need to make sure we apply our modifications when it is updated.
+// TODO: This is allegedly terrible for performance. What's a better way of doing this?
+document.addEventListener('DOMNodeInserted', function() {
+    console.log('DOMNodeInserted event.');
+    modifyMergeButton();
+    modifyMergeForm();
+}, true);
 

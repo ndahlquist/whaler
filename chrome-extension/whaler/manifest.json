@@ -4,7 +4,7 @@
   "description": "Customizations to the GitHub merge button.",
   "content_scripts": [
     {
-      "matches": ["*://github.com/*/pull/*"],
+      "matches": ["*://github.com/*"],
       "all_frames": true,
       "run_at": "document_end",
       "js": ["content_script.js"]
