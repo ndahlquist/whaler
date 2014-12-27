@@ -1,6 +1,6 @@
 {
   "name": "Whaler",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Squash merges from the GitHub merge button.",
   "icons": { "128": "whale_icon.png" },
   "content_scripts": [
