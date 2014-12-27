@@ -1,7 +1,7 @@
 {
   "name": "Whaler",
   "version": "0.0.1",
-  "description": "Fast-Forward merges from the GitHub merge button.",
+  "description": "Squash merges from the GitHub merge button.",
   "icons": { "128": "whale_icon.png" },
   "content_scripts": [
     {
