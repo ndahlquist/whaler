@@ -12,8 +12,8 @@ class GitHubRepo():
         self.git = github.Github(GITHUB_USERNAME, GITHUB_PASSWORD)
         self.repo_owner = repo_owner
         self.repo_name = repo_name
-
         self.user = self.git.get_user()
+        self.repo = None
 
         try:
             self.repo = self.git.get_repo("%s/%s" % (repo_owner, repo_name))
@@ -24,8 +24,12 @@ class GitHubRepo():
             # This is a repo owned by a user. Sweet.
             return
 
-        org = self.get_org(self.user, repo_owner)
-        self.repo = self.get_repo(org, repo_name)
+        try:
+            org = self.get_org(self.user, repo_owner)
+            self.repo = self.get_repo(org, repo_name)
+        except:
+            pass  # Repo or org not found
+
         if self.repo:
             # This is a repo owned by an organization.
             return
