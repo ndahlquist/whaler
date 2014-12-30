@@ -1,5 +1,9 @@
 var BASE_URL = "https://dev-dot-whaler-on-fleek.appspot.com" // TODO
 
+interstitial_url = null
+session_token = null
+current_redirect_url = null
+
 /**
  * Our CSS makes the merge buttons blue.
  */
@@ -67,17 +71,15 @@ function getUsername() {
   return name_header.href.replace(/https:\/\/github.com\// ,'')
 }
 
-interstitial_url = null
-session_token = null
-
 /**
  * Requests an interstitial URL from the server.
  * This is a URL that we will redirect to upon clicking the "Squash merge" button.
  * This may be used to prompt for GitHub application access, to upgrade the chrome extension, etc.
  */
 function fetchInterstitial() {
+  current_redirect_url = document.URL
   url = BASE_URL + '/interstitial?username=' + getUsername() +
-        '&redirect=' + document.URL +
+        '&redirect=' + current_redirect_url +
         '&session_token=' + session_token
   $.get(url, function(responseText) {
     if (responseText !== '') interstitial_url = responseText
@@ -95,6 +97,12 @@ function domNodeInsertedCallback() {
     document.removeEventListener('DOMNodeInserted', domNodeInsertedCallback);
     updateDocument();
     document.addEventListener('DOMNodeInserted', domNodeInsertedCallback);
+
+    // This is an ugly hack. If we have a pending interstitial and the doc url has changed,
+    // the redirect may be old unless we get a new interstitial URL...
+    if (interstitial_url != null && current_redirect_url != document.URL) {
+      fetchInterstitial();
+    }
 }
 
 /**
