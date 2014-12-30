@@ -13,9 +13,7 @@ class GitHubRepo():
     def __init__(self, username, repo_owner, repo_name):
 
         # Retrieve the user's auth token.
-        q = OauthEntry.all()
-        q.filter("username =", username)
-        auth_token = q.get().access_token
+        auth_token = OauthEntry.get_by_id(username).access_token
 
         self.git = github.Github(auth_token)
         self.repo_owner = repo_owner

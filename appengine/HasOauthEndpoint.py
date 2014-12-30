@@ -15,8 +15,6 @@ class HasOauthEndpoint(webapp2.RequestHandler):
         username = self.request.get('username')
         logging.info("username=%s", username)
 
-        q = OauthEntry.all()
-        q.filter("username =", username)
-        oauth = q.get()
+        oauth = OauthEntry.get_by_id(username)
 
         self.response.body = 'false' if oauth is None else 'true'

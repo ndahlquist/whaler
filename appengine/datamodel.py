@@ -1,7 +1,7 @@
-from google.appengine.ext import db
+from google.appengine.ext import ndb
 
 
-class OauthEntry(db.Model):
-    timestamp = db.DateTimeProperty(auto_now_add=True)
-    username = db.StringProperty()
-    access_token = db.StringProperty()
+class OauthEntry(ndb.Model):
+    timestamp = ndb.DateTimeProperty(auto_now_add=True)
+    username = ndb.StringProperty()
+    access_token = ndb.StringProperty()

@@ -20,10 +20,9 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
         code = self.request.get('code')
         referrer = str(self.request.get('state'))
 
-        q = OauthEntry.all()
-        q.filter("username =", username)
-        oauth = q.get()
+        oauth = OauthEntry.get_by_id(username)
         if oauth is not None:
+            logging.warn('Attempting to replace an existing OauthEntry for %s.' % username)
             self.redirect(referrer)
             return
 
@@ -33,12 +32,9 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
                     "code=%s&" % code
 
         result = urlfetch.fetch(token_url, method=urlfetch.POST)
-        logging.info(result.content)
         result_dict = parse_form_encoded_body(result.content)
 
-        oauth_entry = OauthEntry()
-        oauth_entry.username = username
-        oauth_entry.access_token = result_dict['access_token']
+        oauth_entry = OauthEntry(id=username, username=username, access_token=result_dict['access_token'])
         oauth_entry.put()
 
         self.redirect(referrer)
