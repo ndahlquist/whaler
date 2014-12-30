@@ -11,6 +11,9 @@ function injectCSS() {
   head.insertBefore(link, head.lastChild);
 }
 
+/**
+ * Make our changes to the HTML.
+ */
 function updateDocument() {
   if (!/\/pull\//.test(document.URL)) {
     // This is not a pull request URL.
@@ -52,7 +55,12 @@ function getUsername() {
 
 interstitial_url = null
 
-function getInterstitial() {
+/**
+ * Requests an interstitial URL from the server.
+ * This is a URL that we will redirect to upon clicking the "Squash merge" button.
+ * This may be used to prompt for GitHub application access, to upgrade the chrome extension, etc.
+ */
+function fetchInterstitial() {
   url = BASE_URL + '/interstitial?username=' + getUsername() + '&redirect=' + document.URL
   $.get(url, function(responseText) {
     if (responseText !== '') interstitial_url = responseText
@@ -74,7 +82,7 @@ function domNodeInsertedCallback() {
 
 injectCSS();
 updateDocument();
-getInterstitial();
+fetchInterstitial();
 
 // GitHub dynamically modifies the merge form. We need to make sure we apply our modifications when it is updated.
 // TODO: This is allegedly terrible for performance. What's a better way of doing this?
