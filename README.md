@@ -8,6 +8,8 @@ If your Git workflow involves squash merges, you're probably frustrated that the
 
 You should see a blue "Squash merge" button in place of the regular "Merge pull request" button.
 
+![Screenshot](https://lh6.googleusercontent.com/PHxlDNaEO5HtcUnz9JCDw22oytCxV6voFmlpZKLFjlx1u-ELtjj9kbp4egzCkjQpDx-EEUMGEw=s1280-h800-e365-rw)
+
 ### Under the hood
 The chrome extension injects a minimal amount of HTML and Javascript which change a few visual elements and redirect the merge button's HTTP POST to our webservice. This webservice calls through to the GitHub API, performing the following operations:
   - The pull request's `base` branch is merged into its `head` branch.
