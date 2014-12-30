@@ -33,7 +33,7 @@ function updateDocument() {
   if (form != null) {
 
     // Redirect the form to our server so that we can handle the merge.
-    form.action = BASE_URL + '/queue_merge';
+    form.action = BASE_URL + '/merge';
 
     auth_token_field = form.querySelector('input[name="authenticity_token"]');
     if (auth_token_field != null) {

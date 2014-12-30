@@ -7,10 +7,7 @@ from GitHubRepo import GitHubRepo
 from datamodel import OauthEntry
 
 
-class QueueMergeEndpoint(webapp2.RequestHandler):
-    """
-
-    """
+class MergeEndpoint(webapp2.RequestHandler):
 
     def options(self):
         """
