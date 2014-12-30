@@ -4,6 +4,7 @@ import webapp2
 import logging
 
 from GitHubRepo import GitHubRepo
+from datamodel import OauthEntry
 
 
 class QueueMergeEndpoint(webapp2.RequestHandler):
@@ -22,6 +23,10 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
         username = self.request.get('username')
+        session_token = self.request.get('session_token')
+        oauth_entry = OauthEntry.lookup(username, session_token)
+        assert oauth_entry is not None
+        oauth_token = oauth_entry.access_token
 
         # Parse the repo name, owner and PR issue number from the referer URL.
         pull_request_url = self.request.headers['Referer']
@@ -31,7 +36,7 @@ class QueueMergeEndpoint(webapp2.RequestHandler):
         issue_number = int(split_url[6])
         logging.info("owner=%s, repo=%s, issue=%s" % (owner_name, repo_name, issue_number))
 
-        repo = GitHubRepo(username, owner_name, repo_name)
+        repo = GitHubRepo(oauth_token, owner_name, repo_name)
 
         pull = repo.repo.get_pull(issue_number)
         head = pull.head.ref

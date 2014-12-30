@@ -21,3 +21,38 @@ chrome.webRequest.onHeadersReceived.addListener(function(details) {
     'responseHeaders'
 ]);
 
+/**
+ * Randomly generates a 24 character string.
+ */
+function getRandomToken() {
+    var text = "";
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    for( var i=0; i < 24; i++ )
+        text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+    return text;
+}
+
+/**
+ * Responds to messages posted by the content script.
+ */
+chrome.runtime.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    if (request.message != "get_session_token") return false;
+
+    chrome.cookies.get({"url": "https://whaler-on-fleek.appspot.com", "name": "session"}, function(cookie) {
+      if (cookie == null) {
+        session_id = getRandomToken();
+        chrome.cookies.set({"url": "https://whaler-on-fleek.appspot.com",
+                            "name": "session",
+                            "value": session_id,
+                            "secure": true})
+      } else {
+        session_id = cookie.value
+      }
+
+      sendResponse({session_token: session_id});
+    });
+    return true; // We will respond asynchronously.
+  });

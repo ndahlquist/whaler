@@ -18,13 +18,9 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
     def get(self, username):
 
         code = self.request.get('code')
-        referrer = str(self.request.get('state'))
-
-        oauth = OauthEntry.get_by_id(username)
-        if oauth is not None:
-            logging.warn('Attempting to replace an existing OauthEntry for %s.' % username)
-            self.redirect(referrer)
-            return
+        state = str(self.request.get('state')).split(' ')
+        referrer = state[0]
+        session_token = state[1]
 
         token_url = "https://github.com/login/oauth/access_token?" + \
                     "client_id=%s&" % GITHUB_APP_CLIENT_ID + \
@@ -34,7 +30,8 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
         result = urlfetch.fetch(token_url, method=urlfetch.POST)
         result_dict = parse_form_encoded_body(result.content)
 
-        oauth_entry = OauthEntry(id=username, username=username, access_token=result_dict['access_token'])
+        oauth_entry = OauthEntry(id=username, username=username,
+                                 access_token=result_dict['access_token'], session_token=session_token)
         oauth_entry.put()
 
         self.redirect(referrer)

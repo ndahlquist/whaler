@@ -17,18 +17,16 @@ class InterstitialEndpoint(webapp2.RequestHandler):
     def get(self):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
-        logging.info(self.request)
-
         username = self.request.get('username')
         redirect = self.request.get('redirect')
-        logging.info("username=%s", username)
+        session_token = self.request.get('session_token')
 
-        oauth = OauthEntry.get_by_id(username)
+        oauth = OauthEntry.lookup(username, session_token)
 
         if oauth is None:
-            # Redirect the user to the GitHub app authorization.
+            logging.info('Requesting new oauth token.')
             self.response.text = 'https://github.com/login/oauth/authorize?' + \
                                  'client_id=331e31888360cb8fff32&' + \
                                  'redirect_uri=%s/oauth_callback/%s' % (BASE_URL, username) + \
                                  '&scope=public_repo,repo,write:repo_hook' + \
-                                 '&state=%s' % redirect
+                                 '&state=%s+%s' % (redirect, session_token)

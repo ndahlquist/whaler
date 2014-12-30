@@ -1,15 +1,11 @@
 import github
-from datamodel import OauthEntry
 
 
 class GitHubRepo():
 
-    def __init__(self, username, repo_owner, repo_name):
+    def __init__(self, oauth_token, repo_owner, repo_name):
 
-        # Retrieve the user's auth token.
-        auth_token = OauthEntry.get_by_id(username).access_token
-
-        self.git = github.Github(auth_token)
+        self.git = github.Github(oauth_token)
         self.repo_owner = repo_owner
         self.repo_name = repo_name
         self.user = self.git.get_user()

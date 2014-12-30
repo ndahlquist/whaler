@@ -21,6 +21,8 @@
   "permissions": [
       "webRequest",
       "webRequestBlocking",
-      "*://github.com/*/pull/*"
+      "cookies",
+      "*://github.com/*/pull/*",
+      "*://whaler-on-fleek.appspot.com/*"
   ]
 }
