@@ -1,11 +1,5 @@
 import github
-import logging
 from datamodel import OauthEntry
-
-try:
-    from credentials import GITHUB_USERNAME, GITHUB_PASSWORD
-except ImportError:
-    raise ImportError("No credentials.py file found. This file should define GITHUB_USERNAME and GITHUB_PASSWORD.")
 
 
 class GitHubRepo():

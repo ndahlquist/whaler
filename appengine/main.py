@@ -2,14 +2,14 @@
 
 import webapp2
 
-from HasOauthEndpoint import HasOauthEndpoint
+from InterstitialEndpoint import InterstitialEndpoint
 from OauthCallbackEndpoint import OauthCallbackEndpoint
 from QueueMergeEndpoint import QueueMergeEndpoint
 from MainPageEndpoint import MainPageEndoint
 
 
 app = webapp2.WSGIApplication([
-    ('/has_oauth', HasOauthEndpoint),
+    ('/interstitial', InterstitialEndpoint),
     (r'/oauth_callback/(.*)', OauthCallbackEndpoint),
     ('/queue_merge', QueueMergeEndpoint),
     ('/', MainPageEndoint),

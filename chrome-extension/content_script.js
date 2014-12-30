@@ -23,7 +23,7 @@ function updateDocument() {
     // Modify the text
     mergeButton.innerHTML = mergeButton.innerHTML.replace(/Merge pull request/g, 'Squash merge')
 
-    mergeButton.addEventListener("click", requestOauth)
+    mergeButton.addEventListener("click", goToInterstitial)
   }
 
   form = document.querySelector('.merge-branch-form');
@@ -50,22 +50,19 @@ function getUsername() {
   return name_header.href.replace(/https:\/\/github.com\// ,'')
 }
 
-var has_oauth = true
+interstitial_url = null
 
-function checkOauth() {
-  url = BASE_URL + '/has_oauth?username=' + getUsername()
+function getInterstitial() {
+  url = BASE_URL + '/interstitial?username=' + getUsername() + '&redirect=' + document.URL
   $.get(url, function(responseText) {
-    if (responseText !== 'true') has_oauth = false
+    if (responseText !== '') interstitial_url = responseText
   });
 }
 
-function requestOauth() {
-  if (has_oauth) return;
-  window.location.href = "https://github.com/login/oauth/authorize?" +
-                         "client_id=331e31888360cb8fff32&" +
-                         "redirect_uri=" + BASE_URL + "/oauth_callback/" + getUsername() +
-                         "&scope=public_repo,repo,write:repo_hook" +
-                         "&state=" + document.URL;
+function goToInterstitial() {
+  if (interstitial_url) {
+    window.location.href = interstitial_url
+  }
 }
 
 function domNodeInsertedCallback() {
@@ -77,7 +74,7 @@ function domNodeInsertedCallback() {
 
 injectCSS();
 updateDocument();
-checkOauth();
+getInterstitial();
 
 // GitHub dynamically modifies the merge form. We need to make sure we apply our modifications when it is updated.
 // TODO: This is allegedly terrible for performance. What's a better way of doing this?
