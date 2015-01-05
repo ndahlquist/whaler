@@ -25,13 +25,22 @@ chrome.webRequest.onHeadersReceived.addListener(function(details) {
  * Randomly generates a 24 character string.
  */
 function getRandomToken() {
+    var array = new Uint32Array(10);
+    window.crypto.getRandomValues(array);
+
     var text = "";
-    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-
-    for( var i=0; i < 24; i++ )
-        text += possible.charAt(Math.floor(Math.random() * possible.length));
-
+    for (var i = 0; i < array.length; i++) {
+       text += intToChar(array[i] & 255)
+       text += intToChar((array[i] >> 8 ) & 255)
+       text += intToChar((array[i] >> 16) & 255)
+       text += intToChar((array[i] >> 24) & 255)
+    }
     return text;
+}
+
+function intToChar(input) {
+    var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    return possible.charAt(input % possible.length)
 }
 
 /**
@@ -44,9 +53,11 @@ chrome.runtime.onMessage.addListener(
     chrome.cookies.get({"url": "https://whaler-on-fleek.appspot.com", "name": "session"}, function(cookie) {
       if (cookie == null) {
         session_id = getRandomToken();
+        expirationDate = new Date().getTime() / 1000 + 60 * 60 * 24 * 7 // Expire in 1 week
         chrome.cookies.set({"url": "https://whaler-on-fleek.appspot.com",
                             "name": "session",
                             "value": session_id,
+                            "expirationDate": expirationDate,
                             "secure": true})
       } else {
         session_id = cookie.value
