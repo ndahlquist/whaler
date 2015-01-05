@@ -55,8 +55,8 @@ class MergeEndpoint(webapp2.RequestHandler):
                                 "Squash commit from %s created by Whaler." % pull_request_url
         base_branch = repo.repo.get_git_ref("heads/%s" % base)
         parents = [repo.repo.get_git_commit(base_branch.object.sha)]
-        author = self.get_git_author(pull)
-        committer = author  # TODO: Might be better if this is the person who presses the button.
+        author = self.get_author(pull)
+        committer = self.get_committer(repo)
         new_commit = repo.repo.create_git_commit(squash_commit_message, tree, parents, author, committer)
 
         base_branch.edit(new_commit.sha)
@@ -68,10 +68,25 @@ class MergeEndpoint(webapp2.RequestHandler):
         head_branch = repo.repo.get_git_ref("heads/%s" % head)
         head_branch.delete()
 
-    @staticmethod
-    def get_git_author(pull_request):
+    def get_committer(self, repo):
+        """
+        :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
+        """
+        user = repo.user
+        return self.create_git_author(user.name, user.email)
+
+    def get_author(self, pull_request):
         """
         :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
         """
         user = pull_request.user
-        return github.InputGitAuthor(user.name, user.email)
+        return self.create_git_author(user.name, user.email)
+
+    @staticmethod
+    def create_git_author(name, email):
+        assert name
+        if not email:
+            # This passes validation, but does not correctly link to the user.
+            # TODO: Is there a better way to do this?
+            email = "noemail@github.com"
+        return github.InputGitAuthor(name, email)
