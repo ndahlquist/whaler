@@ -73,20 +73,29 @@ class MergeEndpoint(webapp2.RequestHandler):
         :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
         """
         user = repo.user
-        return self.create_git_author(user.name, user.email)
+        return self.create_git_author(user)
 
     def get_author(self, pull_request):
         """
         :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
         """
         user = pull_request.user
-        return self.create_git_author(user.name, user.email)
+        return self.create_git_author(user)
 
     @staticmethod
-    def create_git_author(name, email):
-        assert name
+    def create_git_author(named_user):
+        """
+        :param named_user: :class:`github.NamedUser.NamedUser`
+        :rtype: :class:`github.InputGitAuthor.InputGitAuthor`
+        """
+        user_name = named_user.login
+        display_name = named_user.name
+        email = named_user.email
+
+        assert user_name
+        if not display_name:
+            display_name = user_name
         if not email:
-            # This passes validation, but does not correctly link to the user.
-            # TODO: Is there a better way to do this?
-            email = "noemail@github.com"
-        return github.InputGitAuthor(name, email)
+            email = user_name + "@users.noreply.github.com"
+
+        return github.InputGitAuthor(display_name, email)
