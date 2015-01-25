@@ -1,0 +1,4 @@
+cron:
+- description: Error reporting job
+  url: /errorlog
+  schedule: every 6 hours
