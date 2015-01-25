@@ -1,4 +1,3 @@
-
 import github
 import webapp2
 import logging
@@ -8,12 +7,16 @@ from datamodel import OauthEntry
 
 
 class MergeEndpoint(webapp2.RequestHandler):
+    MERGE_MESSAGE = "Squash merge commit %s created by " + \
+                    "[Whaler](https://chrome.google.com/webstore/detail/whaler/kjfaikbmbbkbnjjeiambmjchclpfkedf). " + \
+                    ":whale:"
 
     def options(self):
         """
         xmlhttp first makes an HTTP OPTION request to negotiate access for POST.
         """
-        self.response.headers.add_header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin')
+        self.response.headers.add_header('Access-Control-Allow-Headers',
+                                         'Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Origin')
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
     def post(self):
@@ -61,7 +64,7 @@ class MergeEndpoint(webapp2.RequestHandler):
 
         base_branch.edit(new_commit.sha)
 
-        pull.create_issue_comment("Merged via squash commit %s. :whale:" % new_commit.sha)
+        pull.create_issue_comment(self.MERGE_MESSAGE % new_commit.sha)
         pull.edit(state='closed')
 
         # Delete the merged branch.
