@@ -1,6 +1,6 @@
 import logging
 import webapp2
-from credentials import BASE_URL
+from credentials_dev import BASE_URL
 
 from datamodel import OauthEntry
 
