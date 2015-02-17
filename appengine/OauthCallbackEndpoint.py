@@ -4,7 +4,7 @@ import logging
 
 from google.appengine.api import urlfetch
 
-from credentials_dev import GITHUB_APP_CLIENT_ID, GITHUB_APP_CLIENT_SECRET
+from credentials import GITHUB_APP_CLIENT_ID, GITHUB_APP_CLIENT_SECRET
 from datamodel import OauthEntry
 
 

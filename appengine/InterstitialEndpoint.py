@@ -1,6 +1,6 @@
 import logging
 import webapp2
-from credentials_dev import GITHUB_APP_CLIENT_ID, BASE_URL
+from credentials import GITHUB_APP_CLIENT_ID, BASE_URL
 
 from datamodel import OauthEntry
 

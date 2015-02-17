@@ -1,4 +1,4 @@
-var BASE_URL = "https://dev-dot-whaler-on-fleek.appspot.com"
+var BASE_URL = "https://whaler-on-fleek.appspot.com"
 
 interstitial_url = null
 session_token = null
