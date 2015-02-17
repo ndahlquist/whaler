@@ -1,6 +1,6 @@
 import logging
 import webapp2
-from credentials_dev import BASE_URL
+from credentials_dev import GITHUB_APP_CLIENT_ID, BASE_URL
 
 from datamodel import OauthEntry
 
@@ -26,7 +26,7 @@ class InterstitialEndpoint(webapp2.RequestHandler):
         if oauth is None:
             logging.info('Requesting new oauth token.')
             self.response.text = 'https://github.com/login/oauth/authorize?' + \
-                                 'client_id=331e31888360cb8fff32&' + \
+                                 'client_id=%s&' % GITHUB_APP_CLIENT_ID + \
                                  'redirect_uri=%s/oauth_callback/%s' % (BASE_URL, username) + \
                                  '&scope=public_repo,repo,write:repo_hook' + \
                                  '&state=%s+%s' % (redirect, session_token)
