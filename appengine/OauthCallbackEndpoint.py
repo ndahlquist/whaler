@@ -1,11 +1,10 @@
 
 import webapp2
-import logging
 
 from google.appengine.api import urlfetch
 
 from credentials import GITHUB_APP_CLIENT_ID, GITHUB_APP_CLIENT_SECRET
-from datamodel import OauthEntry
+from datamodel import UserEntry
 
 
 class OauthCallbackEndpoint(webapp2.RequestHandler):
@@ -30,9 +29,8 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
         result = urlfetch.fetch(token_url, method=urlfetch.POST)
         result_dict = parse_form_encoded_body(result.content)
 
-        oauth_entry = OauthEntry(id=username, username=username,
-                                 access_token=result_dict['access_token'], session_token=session_token)
-        oauth_entry.put()
+        UserEntry.update(username=username, oauth_token=result_dict['access_token'],
+                                        session_token=session_token)
 
         self.redirect(referrer)
 
