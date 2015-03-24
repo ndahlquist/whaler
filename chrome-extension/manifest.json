@@ -22,7 +22,6 @@
       "webRequest",
       "webRequestBlocking",
       "cookies",
-      "*://github.com/*/pull/*",
-      "*://whaler-on-fleek.appspot.com/*"
+      "*://github.com/*/pull/*"
   ]
 }

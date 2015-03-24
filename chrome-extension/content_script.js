@@ -60,7 +60,7 @@ function updateDocument() {
       username_field.value = getUsername()
     }
 
-    confirmMergeButton = form.querySelector('.button');
+    confirmMergeButton = form.querySelector('.btn');
     // Add our CSS tag to paint the button blue.
     confirmMergeButton.className = confirmMergeButton.className.replace(/primary/g, 'whaler');
   }
