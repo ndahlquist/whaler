@@ -50,12 +50,12 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if (request.message != "get_session_token") return false;
 
-    chrome.cookies.get({"url": "https://dev-dot-whaler-on-fleek.appspot.com", "name": "session"}, function(cookie) {
+    chrome.cookies.get({"url": "https://github.com", "name": "whaler_session"}, function(cookie) {
       if (cookie == null) {
         session_id = getRandomToken();
         expirationDate = new Date().getTime() / 1000 + 60 * 60 * 24 * 7 // Expire in 1 week
-        chrome.cookies.set({"url": "https://dev-dot-whaler-on-fleek.appspot.com",
-                            "name": "session",
+        chrome.cookies.set({"url": "https://github.com",
+                            "name": "whaler_session",
                             "value": session_id,
                             "expirationDate": expirationDate,
                             "secure": true})
