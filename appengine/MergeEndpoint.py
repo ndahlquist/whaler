@@ -27,7 +27,7 @@ class MergeEndpoint(webapp2.RequestHandler):
         user_entry = UserEntry.lookup(username, session_token)
         assert user_entry is not None
 
-        # Parse the repo name, owner and PR issue number from the referer URL.
+        # Parse the repo name, owner and PR issue number from the referrer URL.
         pull_request_url = self.request.headers['Referer']
         split_url = pull_request_url.split('/')
         owner_name = split_url[3]

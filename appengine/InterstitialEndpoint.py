@@ -5,6 +5,7 @@ from credentials_dev import GITHUB_APP_CLIENT_ID, BASE_URL
 from datamodel import UserEntry
 
 
+@DeprecationWarning  # Superseded by PreMergeEndpoint.
 class InterstitialEndpoint(webapp2.RequestHandler):
     """
     Returns a URL that the client should redirect to on pressing the "squash merge" button.
