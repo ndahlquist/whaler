@@ -1,5 +1,6 @@
 
 import webapp2
+import logging
 
 from google.appengine.api import urlfetch
 
@@ -15,24 +16,27 @@ class OauthCallbackEndpoint(webapp2.RequestHandler):
     """
 
     def get(self, username):
+        try:
+            code = self.request.get('code')
+            state = str(self.request.get('state')).split(' ')
+            referrer = state[0]
+            session_token = state[1]
 
-        code = self.request.get('code')
-        state = str(self.request.get('state')).split(' ')
-        referrer = state[0]
-        session_token = state[1]
+            token_url = "https://github.com/login/oauth/access_token?" + \
+                        "client_id=%s&" % GITHUB_APP_CLIENT_ID + \
+                        "client_secret=%s&" % GITHUB_APP_CLIENT_SECRET + \
+                        "code=%s&" % code
 
-        token_url = "https://github.com/login/oauth/access_token?" + \
-                    "client_id=%s&" % GITHUB_APP_CLIENT_ID + \
-                    "client_secret=%s&" % GITHUB_APP_CLIENT_SECRET + \
-                    "code=%s&" % code
+            result = urlfetch.fetch(token_url, method=urlfetch.POST)
+            result_dict = parse_form_encoded_body(result.content)
 
-        result = urlfetch.fetch(token_url, method=urlfetch.POST)
-        result_dict = parse_form_encoded_body(result.content)
+            UserEntry.update(username=username, oauth_token=result_dict['access_token'],
+                                            session_token=session_token)
 
-        UserEntry.update(username=username, oauth_token=result_dict['access_token'],
-                                        session_token=session_token)
-
-        self.redirect(referrer)
+            self.redirect(referrer)
+        except:
+            logging.info(repr(self.request))
+            raise
 
 
 def parse_form_encoded_body(form):

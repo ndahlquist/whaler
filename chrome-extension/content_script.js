@@ -67,8 +67,8 @@ function updateDocument() {
 }
 
 function getUsername() {
-  name_header = document.querySelector('a.header-nav-link.name')
-  return name_header.href.replace(/https:\/\/github.com\// ,'')
+  name_meta = document.querySelector('meta[name="user-login"]')
+  return name_meta.content
 }
 
 /**

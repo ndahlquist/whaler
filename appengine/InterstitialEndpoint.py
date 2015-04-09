@@ -18,8 +18,14 @@ class InterstitialEndpoint(webapp2.RequestHandler):
         self.response.headers.add_header('Access-Control-Allow-Origin', '*')
 
         username = self.request.get('username')
+        assert username is not None
+        assert '/' not in username
+
         redirect = self.request.get('redirect')
+        assert redirect is not None
+        
         session_token = self.request.get('session_token')
+        assert session_token is not None
 
         user_entry = UserEntry.lookup(username, session_token)
 
