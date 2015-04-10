@@ -29,7 +29,7 @@ class MergeEndpoint(webapp2.RequestHandler):
             assert user_entry is not None
 
             # Parse the repo name, owner and PR issue number from the referer URL.
-            pull_request_url = self.request.headers['Referer']
+            pull_request_url = self.request.get('Referrer')
             split_url = pull_request_url.split('/')
             owner_name = split_url[3]
             repo_name = split_url[4]
@@ -71,6 +71,10 @@ class MergeEndpoint(webapp2.RequestHandler):
             head_branch = repo.repo.get_git_ref("heads/%s" % head)
             head_branch.delete()
         except:
+            arguments = {}
+            for arg_key in self.request.arguments():
+                arguments[arg_key] = self.request.get(arg_key)
+            logging.debug(repr(arguments))
             logging.debug(repr(self.request.headers))
             raise
 
