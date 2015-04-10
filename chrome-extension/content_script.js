@@ -1,4 +1,5 @@
 var BASE_URL = "https://whaler-on-fleek.appspot.com"
+var WHALER_VERSION = "1.5" // TODO: Get this from the manifest?
 
 interstitial_url = null
 session_token = null
@@ -58,6 +59,25 @@ function updateDocument() {
       }
       username_field.name = 'username'
       username_field.value = getUsername()
+
+      // Add a referrer field.
+      // This is necessary because GitHub does not send the full URL in the referrer header anymore.
+      referrer_field = form.querySelector('input[name="referrer"]');
+      if (!referrer_field) {
+        referrer_field = auth_token_field.cloneNode(true);
+        auth_token_field.parentNode.appendChild(referrer_field);
+      }
+      referrer_field.name = 'referrer'
+      referrer_field.value = document.URL
+
+      // Add a version field.
+      version_field = form.querySelector('input[name="version"]');
+      if (!version_field) {
+        version_field = auth_token_field.cloneNode(true);
+        auth_token_field.parentNode.appendChild(version_field);
+      }
+      version_field.name = 'version'
+      version_field.value = WHALER_VERSION
     }
 
     confirmMergeButton = form.querySelector('.btn');
@@ -80,7 +100,8 @@ function fetchInterstitial() {
   current_redirect_url = document.URL
   url = BASE_URL + '/interstitial?username=' + getUsername() +
         '&redirect=' + current_redirect_url +
-        '&session_token=' + session_token
+        '&session_token=' + session_token +
+        '&version=' + WHALER_VERSION
   $.get(url, function(responseText) {
     if (responseText !== '') interstitial_url = responseText
   });
