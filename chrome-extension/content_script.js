@@ -24,7 +24,7 @@ function updateDocument() {
     // This is not a pull request URL.
     return false;
   }
-  mergeButton = document.querySelector('.merge-branch-action');
+  mergeButton = document.querySelector('.js-merge-branch-action');
   if (mergeButton != null) {
     // Add our CSS tag to paint the button blue.
     mergeButton.className = mergeButton.className.replace(/primary/g, 'whaler');
