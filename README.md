@@ -1,6 +1,10 @@
 Whaler
 ======
 
+Deprecated: GitHub now [natively supports squash merges](https://github.com/blog/2141-squash-your-commits)!
+
+======
+
 If your Git workflow involves squash merges, you're probably frustrated that the GitHub merge button creates ugly --no-ff commits. Whaler is a Chrome extension and server-side component that work together with the GitHub API to create beautiful squash commits right from the GitHub web interface.
 
 ### Quickstart
