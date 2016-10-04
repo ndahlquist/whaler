@@ -1,5 +1,12 @@
 var BASE_URL = "https://whaler-on-fleek.appspot.com"
-var WHALER_VERSION = "1.5" // TODO: Get this from the manifest?
+
+
+/**
+ * Gets version from manifest
+ * Available since Chrome 22
+ */
+var manifest = chrome.runtime.getManifest();
+var WHALER_VERSION = manifest.version;
 
 interstitial_url = null
 session_token = null
